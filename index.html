@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Assignment</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class=" container">
+  <div class="row">
+    <div class="col-lg-3 col-sm-0"></div>
+    <div class="col-lg-6 col-sm-12 jumbotron">
+        <h2 class="text-center m-3">Fibonacci Series and Prime Number </h2>
+        <div class="form-group mt-4">
+          <label for="fibno">Last fibonacci number:</label>
+          <input type="text" class="form-control" id="fibno" placeholder="Enter Last fibonacci number"  name="fibno">
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="CreateTable()">Submit</button>
+    </div>
+    <div class="col-lg-3 col-sm-0"></div>
+  </div>
+</div>
+
+
+<div class="container">
+  <h2 class="text-center m-4">Table</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sr. no.</th>
+        <th>Last fibonacci number</th>
+        <th>Fibonacci series</th>
+        <th>Prime numbers</th>
+      </tr>
+    </thead>
+    <tbody class="table-row"></tbody>
+  </table>
+</div>
+
+<script>
+ function row(num,index){
+    return  `
+      <tr class='create-table-row'>
+        <td class='text-center'>${index}</td>
+        <td class='text-center'>${num}</td>
+        <td ><span>(</span><span class='fib-${index}'></span><span>)</span></td>
+        <td ><span>(</span><span class='prime-${index}'></span><span>)</span></td>
+      </tr>`
+}
+
+var index=0;
+
+function CreateTable(){
+  index++;
+  
+  // GET VALUR FROM INPUT FIELD
+  var num=$('#fibno').val();
+
+  // FOR FIBONACCI SERIES
+  var array=[];
+  let n1 = 1, n2 = 1, nextTerm;
+  for (let i = 0; i <= num; i++) {
+    if(n1<=num){
+      array.push(n1);
+    }
+    nextTerm = n1 + n2;
+    n1 = n2;
+    n2 = nextTerm;
+  }
+
+  $('.table-row').append(row(num,index));
+  
+  for(var j=0;j<array.length;j++){
+    var span=document.createElement("span"); 
+    span.innerHTML=array[j];
+    span.className='mx-1';
+    $(`.fib-${index}`).append(span);
+  }
+
+
+  // FOR PRIME NUMBER
+  for (let i = 0; i <= num; i++) {
+      let flag = 0;
+      for (let j = 2; j < i; j++) {
+          if (i % j == 0) {
+              flag = 1;
+              break;
+          }
+      }
+      if (i > 1 && flag == 0) {
+          var span=document.createElement("span"); 
+          span.innerHTML=i;
+          span.className='mx-1';
+          $(`.prime-${index}`).append(span);
+      }
+  }
+
+
+$('#fibno').val(" ");
+}  
+</script>
+
+</body>
+</html>
